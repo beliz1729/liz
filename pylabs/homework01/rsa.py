@@ -1,5 +1,6 @@
 import math
-import random #библиотека рандомного числа
+import random
+
 
 def is_prime(n):
     """
@@ -13,7 +14,7 @@ def is_prime(n):
     # PUT YOUR CODE HERE
     number = True
     i = 2
-    while i <= math.sqrt(n): #квадратный корень, так как у простого числа 2 делителя - 1 и оно само
+    while i <= math.sqrt(n):
         if n % i == 0:
             number = False
             break
@@ -29,6 +30,7 @@ def ext_gcd(e, phi):
         d, x, y = ext_gcd(phi, e % phi)
     return d, y, x - y * (e // phi)
 
+
 def multiplicative_inverse(e, phi):
     """
     Euclid's extended algorithm for finding the multiplicative
@@ -40,6 +42,7 @@ def multiplicative_inverse(e, phi):
     d = ext_gcd(e, phi)
     result = d[1] % phi
     return result
+
 
 def gcd(a, b):
     """
@@ -73,14 +76,12 @@ def generate_keypair(p, q):
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
-    
 
     # Use Euclid's Algorithm to verify that e and phi(n) are comprime
     g = gcd(e, phi)
     while g != 1:
         e = random.randrange(1, phi)
         g = gcd(e, phi)
-        
 
     # Use Extended Euclid's Algorithm to generate the private key
     d = multiplicative_inverse(e, phi)
@@ -89,20 +90,24 @@ def generate_keypair(p, q):
     # Public key is (e, n) and private key is (d, n)
     return ((e, n), (d, n))
 
+
 def encrypt(pk, plaintext):
-    #Unpack the key into it's components
+    # Unpack the key into it's components
     key, n = pk
-    #Convert each letter in the plaintext to numbers based on the character using a^b mod m
+    '''Convert each letter in the plaintext to numbers
+    based on the character using a^b mod m
+    '''
     cipher = [(ord(char) ** key) % n for char in plaintext]
-    #Return the array of bytes
+    # Return the array of bytes
     return cipher
 
+
 def decrypt(pk, ciphertext):
-    #Unpack the key into its components
+    # Unpack the key into its components
     key, n = pk
-    #Generate the plaintext based on the ciphertext and key using a^b mod m
+    # Generate the plaintext based on the ciphertext and key using a^b mod m
     plain = [chr((char ** key) % n) for char in ciphertext]
-    #Return the array of bytes as a string
+    # Return the array of bytes as a string
     return ''.join(plain)
 
 if __name__ == '__main__':
@@ -111,12 +116,11 @@ if __name__ == '__main__':
     q = int(input("Enter another prime number (Not one you entered above): "))
     print("Generating your public/private keypairs now . . .")
     public, private = generate_keypair(p, q)
-    print("Your public key is ", public ," and your private key is ", private)
+    print("Your public key is ", public, " and your private key is ", private)
     message = input("Enter a message to encrypt with your private key: ")
     encrypted_msg = encrypt(private, message)
     print("Your encrypted message is: ")
     print(''.join(map(lambda x: str(x), encrypted_msg)))
-    print("Decrypting message with public key ", public ," . . .")
+    print("Decrypting message with public key ", public, " . . .")
     print("Your message is:")
     print(decrypt(public, encrypted_msg))
-    
