@@ -15,12 +15,14 @@ def encrypt_vigenere(plaintext, keyword):
 		if (65 <= wordcode <= 90):
 			if (65 <= wordcode + keycode <= 90):
 				cyphertext += chr(wordcode + keycode)
+			else:
 				cyphertext += chr(wordcode + keycode - 26)
+
 	return cyphertext
-print ('Введите ключ')
-keyword = input()
 print ('Введите текст')
 plaintext = input()
+print ('Введите ключ')
+keyword = input()
 print ('result', encrypt_vigenere(plaintext, keyword))
 
 
@@ -41,10 +43,11 @@ def decrypt_vigenere(cyphertext, keyword):
 		if (65 <= wordcode <= 90):
 			if (65 <= wordcode - keycode <= 90):
 				plaintext += chr(wordcode - keycode)
+			else:
 				plaintext += chr(wordcode - keycode + 26)
 	return plaintext
-print ('Введите ключ')
-keyword = input()
 print ('Введите текст')
 cyphertext = input()
+print ('Введите ключ')
+keyword = input()
 print ('result', decrypt_vigenere(cyphertext, keyword))
