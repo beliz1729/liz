@@ -5,14 +5,15 @@ def encrypt_caesar(plaintext):
     sp = 3
     for i in range(len(text)):
         k = text[i]
-        if (97 <= ord(k)+sp <= 122) or (65 <= ord(k)+sp <= 90): #cимволы от a до z и от A до Z
-            cyphertext += chr(ord(k)+sp) #символ + сдвиг
+        if (97 <= ord(k)+sp <= 122) or (65 <= ord(k)+sp <= 90):
+            cyphertext += chr(ord(k)+sp)
         else:
             cyphertext += chr(ord(k)-alp+sp)
     return cyphertext
 print ('put your text here')
 plaintext = input()
 print ('result:', encrypt_caesar(plaintext))
+
 
 def decrypt_caesar(cyphertext):
     text = str(cyphertext)
