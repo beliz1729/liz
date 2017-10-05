@@ -1,10 +1,17 @@
 def encrypt_vigenere(plaintext, keyword):
-    text = str(plaintext)
-    key = str(keyword).lower()
+    """
+    >>> encrypt_vigenere("PYTHON", "A")
+    'PYTHON'
+    >>> encrypt_vigenere("python", "a")
+    'python'
+    >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
+    'LXFOPVEFRNHR'
+    """
+    key = keyword.lower()
     cyphertext = ""
     alp = "abcdefghijklmnopqrstuvwxyz"
-    for i in range(len(text)):
-        wordcode = ord(text[i])
+    for i in range(len(plaintext)):
+        wordcode = ord(plaintext[i])
         keycode = alp.find(key[i % len(key)])
         if (97 <= wordcode <= 122):
             if (97 <= wordcode + keycode <= 122):
@@ -19,20 +26,22 @@ def encrypt_vigenere(plaintext, keyword):
                 cyphertext += chr(wordcode + keycode - 26)
 
     return cyphertext
-print ('Введите текст')
-plaintext = input()
-print ('Введите ключ')
-keyword = input()
-print ('result', encrypt_vigenere(plaintext, keyword))
 
 
 def decrypt_vigenere(cyphertext, keyword):
-    text = str(cyphertext)
-    key = str(keyword).lower()
+    """
+    >>> decrypt_vigenere("PYTHON", "A")
+    'PYTHON'
+    >>> decrypt_vigenere("python", "a")
+    'python'
+    >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
+    'ATTACKATDAWN'
+    """
+    key = keyword.lower()
     plaintext = ""
     alp = "abcdefghijklmnopqrstuvwxyz"
-    for i in range(len(text)):
-        wordcode = ord(text[i])
+    for i in range(len(cyphertext)):
+        wordcode = ord(cyphertext[i])
         keycode = alp.find(key[i % len(key)])
         if (97 <= wordcode <= 122):
             if (97 <= wordcode - keycode <= 122):
@@ -46,8 +55,3 @@ def decrypt_vigenere(cyphertext, keyword):
             else:
                 plaintext += chr(wordcode - keycode + 26)
     return plaintext
-print ('Введите текст')
-cyphertext = input()
-print ('Введите ключ')
-keyword = input()
-print ('result', decrypt_vigenere(cyphertext, keyword))
