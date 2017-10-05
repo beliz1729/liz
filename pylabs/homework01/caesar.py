@@ -1,22 +1,33 @@
 def encrypt_caesar(plaintext):
-    text = str(plaintext)
+    """
+    >>> encrypt_caesar("PYTHON")
+    'SBWKRQ'
+    >>> encrypt_caesar("python")
+    'sbwkrq'
+    >>> encrypt_caesar("")
+    ''
+    """
     cyphertext = ""
     alp = 26
     sp = 3
-    for i in range(len(text)):
-        k = text[i]
+    for i in range(len(plaintext)):
+        k = plaintext[i]
         if (97 <= ord(k)+sp <= 122) or (65 <= ord(k)+sp <= 90):
             cyphertext += chr(ord(k)+sp)
         else:
             cyphertext += chr(ord(k)-alp+sp)
     return cyphertext
-print ('put your text here')
-plaintext = input()
-print ('result:', encrypt_caesar(plaintext))
 
 
 def decrypt_caesar(cyphertext):
-    text = str(cyphertext)
+    """
+    >>> decrypt_caesar("SBWKRQ")
+    'PYTHON'
+    >>> decrypt_caesar("sbwkrq")
+    'python'
+    >>> decrypt_caesar("")
+    ''
+    """
     plaintext = ""
     alp = 26
     sp = 3
@@ -27,6 +38,3 @@ def decrypt_caesar(cyphertext):
         else:
             plaintext += chr(ord(k)+alp-sp)
     return plaintext
-print ('put your text here')
-cyphertext = input()
-print ('result:', decrypt_caesar(cyphertext))
