@@ -1,3 +1,7 @@
+import math
+import random
+
+
 def read_sudoku(filename):
     """ Прочитать Судоку из указанного файла """
     digits = [c for c in open(filename).read() if c in '123456789.']
@@ -25,7 +29,28 @@ def group(values, n):
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    pass
+    values_clone = []
+    a = len(values)
+    if a == n:
+        for value in values:
+            values_clone.append([value])
+    if a > n:
+        b = math.ceil(a / n) # округление до ближайшего целого числа
+        for i in range(n - 1):
+            values_clone.append(values[: b])
+            del values[: b]
+        values_clone.append(values[:])
+    if a < n:
+        for i in range(a // 2):
+            values_clone.append(values[: 2])
+            del values[: 2]
+        if values:
+            values_clone.append(values)
+            n -= 1
+        for i in range(n - (a // 2)):
+            values_clone.append([])
+    return values_clone
+
 
 
 def get_row(values, pos):
