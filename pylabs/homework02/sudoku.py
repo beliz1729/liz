@@ -32,7 +32,6 @@ def group(values, n):
     return [values[i*n: i*n + n] for i in range(n)]
 
 
-
 def get_row(values, pos):
     """ Возвращает все значения для номера строки, указанной в pos
 
@@ -86,11 +85,12 @@ def find_empty_positions(grid):
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    for i in range (len(grid)):
-        for j in range (len(grid)):
-            if grid [i][j] == ".":
-                return (i,j)
+    for i in range(len(grid)):
+        for j in range(len(grid)):
+            if grid[i][j] == ".":
+                return (i, j)
     return -1
+
 
 def find_possible_values(grid, pos):
     """ Вернуть все возможные значения для указанной позиции
