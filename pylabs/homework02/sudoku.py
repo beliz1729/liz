@@ -29,27 +29,7 @@ def group(values, n):
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    values_clone = []
-    a = len(values)
-    if a == n:
-        for value in values:
-            values_clone.append([value])
-    if a > n:
-        b = math.ceil(a / n) # округление до ближайшего целого числа
-        for i in range(n - 1):
-            values_clone.append(values[: b])
-            del values[: b]
-        values_clone.append(values[:])
-    if a < n:
-        for i in range(a // 2):
-            values_clone.append(values[: 2])
-            del values[: 2]
-        if values:
-            values_clone.append(values)
-            n -= 1
-        for i in range(n - (a // 2)):
-            values_clone.append([])
-    return values_clone
+    return [values[i*n: i*n + n] for i in range(n)]
 
 
 
@@ -63,7 +43,8 @@ def get_row(values, pos):
     >>> get_row([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (2, 0))
     ['.', '8', '9']
     """
-    return(values[pos[0]])
+    row, col = pos
+    return values[row]
 
 
 def get_col(values, pos):
@@ -90,11 +71,8 @@ def get_block(values, pos):
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
-    block = []
-    x, y = pos[0] // 3, pos[1] // 3
-    for i in range(0, 3):
-        for j in range(0, 3):
-            block.append([x * 3 + i][y * 3 + j])
+    x, y = (pos[0] // 3)*3, (pos[1] // 3)*3
+    block = [values[x+i][y+j] for i in range(3) for j in range(3)]
     return block
 
 
@@ -108,8 +86,11 @@ def find_empty_positions(grid):
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    pass
-
+    for i in range (len(grid)):
+        for j in range (len(grid)):
+            if grid [i][j] == ".":
+                return (i,j)
+    return -1
 
 def find_possible_values(grid, pos):
     """ Вернуть все возможные значения для указанной позиции
@@ -122,7 +103,10 @@ def find_possible_values(grid, pos):
     >>> set(values) == {'2', '5', '9'}
     True
     """
-    pass
+    return set('123456789') -\
+    set(get_row(grid, pos)) -\
+    set(get_col(grid, pos)) -\
+    set(get_block(grid, pos))
 
 
 def solve(grid):
@@ -138,12 +122,36 @@ def solve(grid):
     >>> solve(grid)
     [['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['6', '7', '2', '1', '9', '5', '3', '4', '8'], ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'], ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
-    pass
+    position = find_empty_positions(grid)
+    if position == -1:
+        return grid
+    possible = find_possible_values(grid, position)
+    if not len(possible):
+        return None
+
+    for i in possible:
+        grid[position[0]][position[1]] = i
+        solution = solve(grid)
+        if solution:
+            return grid
+        grid[position[0]][position[1]] = '.'
 
 
 def check_solution(solution):
     """ Если решение solution верно, то вернуть True, в противном случае False """
-    pass
+    answer = True
+
+    for i in range(9):
+        for j in range(9):
+            cur_row = get_row(solution, (i, j))
+            cur_col = get_col(solution, (i, j))
+            cur_block = get_block(solution, (i, j))
+            cur_row.sort()
+            cur_col.sort()
+            cur_block.sort()
+            if not (cur_row == cur_col == cur_block == correct_list):
+                answer = False
+    return answer
 
 
 def generate_sudoku(N):
