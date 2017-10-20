@@ -177,7 +177,16 @@ def generate_sudoku(N):
     True
     """
     # PUT YOUR CODE HERE
-    pass
+    grid = [['.' for i in range(9)] for j in range(9)]
+    grid = solve(grid)
+    row = random.randint(0, 8)
+    col = random.randint(0, 8)
+    for i in range(81-N):
+        while grid[row][col] == '.':
+            row = random.randint(0, 8)
+            col = random.randint(0, 8)
+            grid[row][col] = '.'
+    return grid
 
 
 if __name__ == '__main__':
