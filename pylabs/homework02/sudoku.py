@@ -146,9 +146,9 @@ def check_solution(solution):
             cur_row = get_row(solution, (i, j))
             cur_col = get_col(solution, (i, j))
             cur_block = get_block(solution, (i, j))
-            cur_row.sort()
-            cur_col.sort()
-            cur_block.sort()
+            cur_row.sorted()
+            cur_col.sorted()
+            cur_block.sorted()
             if not (cur_row == cur_col == cur_block == correct_list):
                 answer = False
     return answer
@@ -176,7 +176,6 @@ def generate_sudoku(N):
     >>> check_solution(solution)
     True
     """
-    # PUT YOUR CODE HERE
     grid = [['.' for i in range(9)] for j in range(9)]
     grid = solve(grid)
     row = random.randint(0, 8)
