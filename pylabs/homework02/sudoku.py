@@ -1,6 +1,5 @@
-import math
 import random
-
+from pprint import pprint as pp
 
 def read_sudoku(filename):
     """ Прочитать Судоку из указанного файла """
@@ -30,6 +29,7 @@ def group(values, n):
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
     return [values[i*n: i*n + n] for i in range(n)]
+
 
 
 def get_row(values, pos):
@@ -85,12 +85,11 @@ def find_empty_positions(grid):
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    for i in range(len(grid)):
-        for j in range(len(grid)):
-            if grid[i][j] == ".":
-                return (i, j)
+    for i in range (len(grid)):
+        for j in range (len(grid)):
+            if grid [i][j] == ".":
+                return (i,j)
     return -1
-
 
 def find_possible_values(grid, pos):
     """ Вернуть все возможные значения для указанной позиции
@@ -140,16 +139,13 @@ def solve(grid):
 def check_solution(solution):
     """ Если решение solution верно, то вернуть True, в противном случае False """
     answer = True
-
+    correct_list = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
     for i in range(9):
         for j in range(9):
             cur_row = get_row(solution, (i, j))
             cur_col = get_col(solution, (i, j))
             cur_block = get_block(solution, (i, j))
-            cur_row.sorted()
-            cur_col.sorted()
-            cur_block.sorted()
-            if not (cur_row == cur_col == cur_block == correct_list):
+            if not (sorted(cur_row) == sorted(cur_col) == sorted(cur_block) == correct_list):
                 answer = False
     return answer
 
@@ -184,7 +180,7 @@ def generate_sudoku(N):
         while grid[row][col] == '.':
             row = random.randint(0, 8)
             col = random.randint(0, 8)
-            grid[row][col] = '.'
+        grid[row][col] = '.'
     return grid
 
 
