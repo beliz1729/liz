@@ -172,7 +172,6 @@ def generate_sudoku(N):
     >>> check_solution(solution)
     True
     """
-    # PUT YOUR CODE HERE
     grid = [['.' for i in range(9)] for j in range(9)]
     grid = solve(grid)
     row = random.randint(0, 8)
